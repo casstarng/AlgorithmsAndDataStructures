@@ -15,61 +15,58 @@ public class MergeSort {
         }
     }
 
+
     public static void mergeSort(int left, int right, int[] arr){
         if (left < right){
             int mid = (left + right) / 2;
+
             mergeSort(left, mid, arr);
             mergeSort(mid + 1, right, arr);
 
-            merge(left, right, mid, arr);
+            merge(left, mid, right, arr);
         }
     }
 
-    public static void merge(int left, int right, int mid, int[] arr){
-        int leftSize = mid - left + 1;
-        int rightSize = right - mid;
+    public static void merge(int left, int mid, int right, int[] arr){
+        int lSize = mid - left + 1;
+        int rSize = right - mid;
 
-        // Initialize left and right array
-        int[] L = new int[leftSize];
-        int[] R = new int[rightSize];
+        int[] L = new int[lSize];
+        int[] R = new int[rSize];
 
-        // Fill in new arrays
-        for(int i = 0; i < leftSize; i++){
+        for(int i = 0; i < L.length; i++){
             L[i] = arr[left + i];
         }
-        for(int i = 0; i < rightSize; i++){
-            R[i] = arr[i + mid + 1];
+        for(int i = 0; i < R.length; i++){
+            R[i] = arr[mid + 1 + i];
         }
 
         int i = 0;
-        int j = 0;
-        int k = left;
+        int k = 0;
+        int j = left;
 
-        // Merge temp arrays back into arr
-        while (i < leftSize && j < rightSize){
-            if (L[i] <= R[j]){
-                arr[k] = L[i];
+        while(i < lSize && k < rSize){
+            if (L[i] < R[k]){
+                arr[j] = L[i];
+                j++;
                 i++;
             }
             else{
-                arr[k] = R[j];
+                arr[j] = R[k];
                 j++;
+                k++;
             }
-            k++;
         }
-        // Copy remaining of L
-        while (i < leftSize){
-            arr[k] = L[i];
-            k++;
+        while (i < lSize){
+            arr[j] = L[i];
+            j++;
             i++;
         }
-        // Copy remaining of R
-        while(j < rightSize){
-            arr[k] = R[j];
-            k++;
+        while (k < rSize){
+            arr[j] = R[k];
             j++;
+            k++;
         }
-
     }
 
 //    public static void mergeSort(int left, int right, int[] arr){
